@@ -16,7 +16,7 @@ struct DropView: View {
             if let fileName = droppedFileName {
                 Text(fileName)
                     .foregroundColor(Color(NSColor.labelColor))
-            } else {
+            } else if imageData == nil {
                 Text("Drag and drop image here")
                     .foregroundColor(Color(NSColor.secondaryLabelColor))
             }
@@ -57,6 +57,11 @@ struct DropView: View {
             }
 
             return true
+        }
+        .onChange(of: imageData) { newValue in
+            if newValue == nil {
+                self.droppedFileName = nil
+            }
         }
     }
 }

@@ -1,12 +1,6 @@
 import SwiftUI
 import Foundation
 
-import SwiftUI
-import Foundation
-
-import SwiftUI
-import Foundation
-
 struct ContentView: View {
     @State private var imageData: Data?
     @State private var chartScreenshotData: Data?
@@ -77,11 +71,20 @@ struct ContentView: View {
 
             HStack {
                 Button(action: {
+                    clearForm()
+                }) {
+                    Text("Clear")
+                }
+                .padding(.trailing, 10)
+                .foregroundColor(.red)
+                
+                Button(action: {
                     uploadImage()
                 }) {
                     Text("Upload")
                 }
                 .keyboardShortcut(.return, modifiers: [])
+                
                 Text("(Press Enter to submit)")
                     .font(.footnote)
                     .foregroundColor(.gray)
@@ -94,6 +97,18 @@ struct ContentView: View {
     private func uploadImage() {
         guard let imageData = imageData else { return }
         uploadTrade(image: imageData, screenshot: chartScreenshotData, tradingPlan: tradingPlan, entryNotes: entryNotes)
+        
+        // Simulate successful API call by calling clearForm after a delay
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            clearForm()
+        }
+    }
+
+    private func clearForm() {
+        imageData = nil
+        chartScreenshotData = nil
+        tradingPlan = ""
+        entryNotes = ""
     }
 }
 
