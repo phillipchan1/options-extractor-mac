@@ -6,6 +6,12 @@ struct ContentView: View {
     @State private var chartScreenshotData: Data?
     @State private var tradingPlan: String = ""
     @State private var entryNotes: String = ""
+    @State private var isLoading: Bool = false
+    @FocusState private var focusedField: Field?
+
+    enum Field: Hashable {
+        case tradingPlan, entryNotes
+    }
 
     var body: some View {
         VStack(spacing: 16) {
@@ -23,6 +29,7 @@ struct ContentView: View {
                         return false
                     }
                 })
+                .disabled(isLoading)
             }
             .padding()
             .background(Color(NSColor.controlBackgroundColor)) // Set background color to match form input
@@ -41,32 +48,33 @@ struct ContentView: View {
                         return false
                     }
                 })
+                .disabled(isLoading)
             }
             .padding()
             .background(Color(NSColor.controlBackgroundColor)) // Set background color to match form input
-
-            VStack(alignment: .leading) {
-                Text("Trading Plan")
-                    .font(.headline)
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $tradingPlan)
-                        .padding(8)
-                        .background(Color(NSColor.textBackgroundColor)) // Match TextEditor background
-                        .border(Color.gray, width: 1)
-                }
-                .frame(height: 50)
-            }
-
+            
             VStack(alignment: .leading) {
                 Text("Entry Notes")
                     .font(.headline)
-                ZStack(alignment: .topLeading) {
-                    TextEditor(text: $entryNotes)
-                        .padding(8)
-                        .background(Color(NSColor.textBackgroundColor)) // Match TextEditor background
-                        .border(Color.gray, width: 1)
-                }
-                .frame(height: 50)
+                TextField("Enter entry notes", text: $entryNotes, axis: .vertical)
+                    .lineLimit(5, reservesSpace: true)
+                    .padding(8)
+                    .background(Color(NSColor.textBackgroundColor)) // Match TextField background
+                    .border(Color.gray, width: 1)
+                    .focused($focusedField, equals: .entryNotes)
+                    .disabled(isLoading)
+            }
+            
+            VStack(alignment: .leading) {
+                Text("Trading Plan")
+                    .font(.headline)
+                TextField("Enter trading plan", text: $tradingPlan, axis: .vertical)
+                    .lineLimit(5, reservesSpace: true)
+                    .padding(8)
+                    .background(Color(NSColor.textBackgroundColor)) // Match TextField background
+                    .border(Color.gray, width: 1)
+                    .focused($focusedField, equals: .tradingPlan)
+                    .disabled(isLoading)
             }
 
             HStack {
@@ -77,30 +85,48 @@ struct ContentView: View {
                 }
                 .padding(.trailing, 10)
                 .foregroundColor(.red)
+                .disabled(isLoading)
                 
                 Button(action: {
                     uploadImage()
                 }) {
-                    Text("Upload")
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Upload")
+                    }
                 }
-                .keyboardShortcut(.return, modifiers: [])
+                .keyboardShortcut(.return, modifiers: [.command])
+                .disabled(isLoading)
                 
-                Text("(Press Enter to submit)")
+                Text("(Press Cmd + Enter to submit)")
                     .font(.footnote)
                     .foregroundColor(.gray)
             }
         }
         .padding()
         .background(Color(NSColor.windowBackgroundColor)) // Set main container background to match window background
+        .onAppear {
+            NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                // Check for Cmd + Enter
+                if event.modifierFlags.contains(.command) && event.keyCode == 36 && !isLoading {
+                    uploadImage()
+                    return nil
+                }
+                return event
+            }
+        }
     }
 
     private func uploadImage() {
         guard let imageData = imageData else { return }
+        isLoading = true
         uploadTrade(image: imageData, screenshot: chartScreenshotData, tradingPlan: tradingPlan, entryNotes: entryNotes)
         
         // Simulate successful API call by calling clearForm after a delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             clearForm()
+            isLoading = false
         }
     }
 
@@ -109,6 +135,7 @@ struct ContentView: View {
         chartScreenshotData = nil
         tradingPlan = ""
         entryNotes = ""
+        focusedField = .tradingPlan
     }
 }
 
