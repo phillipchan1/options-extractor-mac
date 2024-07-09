@@ -14,6 +14,7 @@
 		0CACC6D12C3C4B0B00894268 /* OptionsExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6D02C3C4B0B00894268 /* OptionsExtractorTests.swift */; };
 		0CACC6DB2C3C4B0B00894268 /* OptionsExtractorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6DA2C3C4B0B00894268 /* OptionsExtractorUITests.swift */; };
 		0CACC6DD2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6DC2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift */; };
+		0CACC6EA2C3C4B3A00894268 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6E92C3C4B3A00894268 /* DropView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		0CACC6D62C3C4B0B00894268 /* OptionsExtractorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OptionsExtractorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CACC6DA2C3C4B0B00894268 /* OptionsExtractorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsExtractorUITests.swift; sourceTree = "<group>"; };
 		0CACC6DC2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsExtractorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0CACC6E92C3C4B3A00894268 /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				0CACC6C22C3C4B0B00894268 /* Assets.xcassets */,
 				0CACC6C72C3C4B0B00894268 /* OptionsExtractor.entitlements */,
 				0CACC6C42C3C4B0B00894268 /* Preview Content */,
+				0CACC6E92C3C4B3A00894268 /* DropView.swift */,
 			);
 			path = OptionsExtractor;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				0CACC6C12C3C4B0B00894268 /* ContentView.swift in Sources */,
 				0CACC6BF2C3C4B0B00894268 /* OptionsExtractorApp.swift in Sources */,
+				0CACC6EA2C3C4B3A00894268 /* DropView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
