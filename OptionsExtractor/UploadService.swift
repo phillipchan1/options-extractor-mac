@@ -7,9 +7,9 @@
 
 import Foundation
 
-func uploadTrade(image: Data, screenshot: Data?, tradingPlan: String, entryNotes: String) {
+func uploadTrade(image: Data, screenshot: Data?, tradingPlan: String, entryNotes: String, completion: @escaping (Result<Void, Error>) -> Void) {
     guard let url = URL(string: "https://options-extractor-middleware.azurewebsites.net/insert-option") else {
-        print("Invalid URL")
+        completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
         return
     }
 
@@ -63,13 +63,26 @@ func uploadTrade(image: Data, screenshot: Data?, tradingPlan: String, entryNotes
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
             print("Error uploading trade: \(error)")
+            completion(.failure(error))
         } else if let httpResponse = response as? HTTPURLResponse {
             print("Server response status code: \(httpResponse.statusCode)")
             if let data = data {
                 print("Server response data: \(String(data: data, encoding: .utf8) ?? "No data")")
             }
+            
+            switch httpResponse.statusCode {
+            case 200:
+                completion(.success(()))
+            case 400:
+                completion(.failure(NSError(domain: "", code: 400, userInfo: [NSLocalizedDescriptionKey: "Bad request"])))
+            case 500:
+                completion(.failure(NSError(domain: "", code: 500, userInfo: [NSLocalizedDescriptionKey: "Server error"])))
+            default:
+                completion(.failure(NSError(domain: "", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "Unexpected status code: \(httpResponse.statusCode)"])))
+            }
         } else {
             print("Failed to upload trade. Server response: \(String(describing: response))")
+            completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])))
         }
     }
     task.resume()

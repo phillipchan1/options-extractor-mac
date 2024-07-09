@@ -7,6 +7,8 @@ struct ContentView: View {
     @State private var tradingPlan: String = ""
     @State private var entryNotes: String = ""
     @State private var isLoading: Bool = false
+    @State private var alertMessage: String = ""
+    @State private var showAlert: Bool = false
     @FocusState private var focusedField: Field?
 
     enum Field: Hashable {
@@ -118,17 +120,29 @@ struct ContentView: View {
                 return event
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Notification"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
 
     private func uploadImage() {
         guard let imageData = imageData else { return }
         isLoading = true
-        uploadTrade(image: imageData, screenshot: chartScreenshotData, tradingPlan: tradingPlan, entryNotes: entryNotes)
         
-        // Simulate successful API call by calling clearForm after a delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            clearForm()
-            isLoading = false
+        // Assuming you have a function to handle the API call
+        uploadTrade(image: imageData, screenshot: chartScreenshotData, tradingPlan: tradingPlan, entryNotes: entryNotes) { result in
+            DispatchQueue.main.async {
+                self.isLoading = false
+                switch result {
+                case .success:
+                    self.alertMessage = "Trade added to database!"
+                    self.showAlert = true
+                    self.clearForm()
+                case .failure(let error):
+                    self.alertMessage = "Error: \(error.localizedDescription)"
+                    self.showAlert = true
+                }
+            }
         }
     }
 
@@ -140,6 +154,7 @@ struct ContentView: View {
         focusedField = .tradingPlan
     }
 }
+
 
 //#Preview {
 //    ContentView()
