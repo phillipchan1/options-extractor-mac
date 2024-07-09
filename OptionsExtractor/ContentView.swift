@@ -38,10 +38,10 @@ struct ContentView: View {
             .background(Color(NSColor.controlBackgroundColor)) // Set background color to match form input
 
             VStack {
-                Text("Screenshot of Trade")
+                Text("Screenshot of Chart")
                     .font(.headline)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                DropView(imageData: $imageData, onDrop: { urls in
+                DropView(imageData: $chartScreenshotData, onDrop: { urls in
                     guard let imageURL = urls.first else { return false }
                     do {
                         imageData = try Data(contentsOf: imageURL)
@@ -56,6 +56,18 @@ struct ContentView: View {
             }
             .padding()
             .background(Color(NSColor.controlBackgroundColor))
+            
+            VStack(alignment: .leading) {
+                Text("Entry Notes")
+                    .font(.headline)
+                TextField("Enter entry notes", text: $entryNotes, axis: .vertical)
+                    .lineLimit(5, reservesSpace: true)
+                    .padding(8)
+                    .background(Color(NSColor.textBackgroundColor)) // Match TextField background
+                    .border(Color.gray, width: 1)
+                    .focused($focusedField, equals: .entryNotes)
+                    .disabled(isLoading)
+            }
 
             VStack(alignment: .leading) {
                 Text("Trading Plan")
@@ -66,18 +78,6 @@ struct ContentView: View {
                     .background(Color(NSColor.textBackgroundColor)) // Match TextField background
                     .border(Color.gray, width: 1)
                     .focused($focusedField, equals: .tradingPlan)
-                    .disabled(isLoading)
-            }
-
-            VStack(alignment: .leading) {
-                Text("Entry Notes")
-                    .font(.headline)
-                TextField("Enter entry notes", text: $entryNotes, axis: .vertical)
-                    .lineLimit(5, reservesSpace: true)
-                    .padding(8)
-                    .background(Color(NSColor.textBackgroundColor)) // Match TextField background
-                    .border(Color.gray, width: 1)
-                    .focused($focusedField, equals: .entryNotes)
                     .disabled(isLoading)
             }
 
