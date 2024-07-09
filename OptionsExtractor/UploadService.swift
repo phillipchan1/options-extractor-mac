@@ -8,7 +8,10 @@
 import Foundation
 
 func uploadTrade(image: Data, screenshot: Data?, tradingPlan: String, entryNotes: String, completion: @escaping (Result<Void, Error>) -> Void) {
-    guard let url = URL(string: "https://options-extractor-middleware.azurewebsites.net/insert-option") else {
+    let urlString = "https://options-extractor-middleware.azurewebsites.net/insert-option"
+//    let urlString = "http://localhost:8000/insert-option"
+    
+    guard let url = URL(string: urlString) else {
         completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
         return
     }

@@ -23,6 +23,11 @@ struct DropView: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .onChange(of: imageData) { oldValue, newValue in
+            if newValue == nil {
+                droppedFileName = nil
+            }
+        }
         .onDrop(of: [.image, .fileURL], isTargeted: $isDropTargeted) { providers in
             var urls: [URL] = []
 
@@ -31,7 +36,8 @@ struct DropView: View {
             for provider in providers {
                 if provider.canLoadObject(ofClass: URL.self) {
                     dispatchGroup.enter()
-                    provider.loadObject(ofClass: URL.self) { url, error in
+                    
+                    let _ = provider.loadObject(ofClass: URL.self) { url, error in
                         if let url = url {
                             urls.append(url)
                             self.droppedFileName = url.lastPathComponent
