@@ -8,7 +8,7 @@
 import Foundation
 
 func uploadTrade(image: Data, screenshot: Data?, tradingPlan: String, entryNotes: String) {
-    guard let url = URL(string: "http://localhost:8000/insert-option") else {
+    guard let url = URL(string: "https://options-extractor-middleware.azurewebsites.net/insert-option") else {
         print("Invalid URL")
         return
     }

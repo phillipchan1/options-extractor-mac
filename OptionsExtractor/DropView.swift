@@ -7,19 +7,21 @@ struct DropView: View {
     var onDrop: ([URL]) -> Bool
 
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(isDropTargeted ? Color.blue : Color(NSColor.controlBackgroundColor))
-                .cornerRadius(8)
-                .padding()
+        GeometryReader { geometry in
+            ZStack {
+                Rectangle()
+                    .fill(isDropTargeted ? Color.blue.opacity(0.1) : Color(NSColor.controlBackgroundColor))
+                    .cornerRadius(8)
 
-            if let fileName = droppedFileName {
-                Text(fileName)
-                    .foregroundColor(Color(NSColor.labelColor))
-            } else if imageData == nil {
-                Text("Drag and drop image here")
-                    .foregroundColor(Color(NSColor.secondaryLabelColor))
+                if let fileName = droppedFileName {
+                    Text(fileName)
+                        .foregroundColor(Color(NSColor.labelColor))
+                } else {
+                    Text("Drag and drop image here")
+                        .foregroundColor(Color(NSColor.secondaryLabelColor))
+                }
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .onDrop(of: [.image, .fileURL], isTargeted: $isDropTargeted) { providers in
             var urls: [URL] = []
@@ -57,11 +59,6 @@ struct DropView: View {
             }
 
             return true
-        }
-        .onChange(of: imageData) { newValue in
-            if newValue == nil {
-                self.droppedFileName = nil
-            }
         }
     }
 }
