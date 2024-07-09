@@ -15,6 +15,7 @@
 		0CACC6DB2C3C4B0B00894268 /* OptionsExtractorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6DA2C3C4B0B00894268 /* OptionsExtractorUITests.swift */; };
 		0CACC6DD2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6DC2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift */; };
 		0CACC6EA2C3C4B3A00894268 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6E92C3C4B3A00894268 /* DropView.swift */; };
+		0CACC6EC2C3CE5D500894268 /* UploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CACC6EB2C3CE5D500894268 /* UploadService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		0CACC6DA2C3C4B0B00894268 /* OptionsExtractorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsExtractorUITests.swift; sourceTree = "<group>"; };
 		0CACC6DC2C3C4B0B00894268 /* OptionsExtractorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsExtractorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		0CACC6E92C3C4B3A00894268 /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
+		0CACC6EB2C3CE5D500894268 /* UploadService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				0CACC6C72C3C4B0B00894268 /* OptionsExtractor.entitlements */,
 				0CACC6C42C3C4B0B00894268 /* Preview Content */,
 				0CACC6E92C3C4B3A00894268 /* DropView.swift */,
+				0CACC6EB2C3CE5D500894268 /* UploadService.swift */,
 			);
 			path = OptionsExtractor;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CACC6EC2C3CE5D500894268 /* UploadService.swift in Sources */,
 				0CACC6C12C3C4B0B00894268 /* ContentView.swift in Sources */,
 				0CACC6BF2C3C4B0B00894268 /* OptionsExtractorApp.swift in Sources */,
 				0CACC6EA2C3C4B3A00894268 /* DropView.swift in Sources */,
